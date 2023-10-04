@@ -13,78 +13,73 @@ const itemsCounter = document.getElementById("items_counter");
 const itemsSortASC = document.getElementById("sort_items_asc");
 const itemsSortDESC = document.getElementById("sort_items_desc");
 const titleInput = document.getElementById("title_input");
-const priceInput = document.getElementById("price_input");
+const sizeInput = document.getElementById("size_input");
 const errorTitle = document.getElementById("errorTitle");
-const errorPrice = document.getElementById("errorPrice");
+const errorsize = document.getElementById("errorsize");
 const errorFind = document.getElementById("errorFind");
 
 
-let devices = [];
+let restaurants = [];
 
 itemsSortASC.addEventListener("click", (event) => {
     event.preventDefault();
 
-    devices.sort((a, b) => (a.price > b.price) ? 1 : -1);
+    restaurants.sort((a, b) => a.size - b.size);
 
-    renderItemsList(devices);
+    renderItemsList(restaurants);
 });
 
 itemsSortDESC.addEventListener("click", (event) => {
     event.preventDefault();
 
-    devices.sort((a, b) => (a.price < b.price) ? 1 : -1);
+    restaurants.sort((a, b) => b.size - a.size);
 
-    renderItemsList(devices);
+    renderItemsList(restaurants);
 });
 
-const addItem = ({ title, price }) => {
+const addItem = ({ title, size }) => {
     const generatedId = Math.random().toString(36).substr(2, 9);
 
     const newItem = {
         id: generatedId,
         title,
-        price,
+        size,
     };
 
-    devices.push(newItem);
+    restaurants.push(newItem);
 
     addItemToPage(newItem);
 };
 
 submitButton.addEventListener("click", (event) => {
-    // Prevents default page reload on submit
+
     event.preventDefault();
-    // №<>/#!~&$@
-    const invaidSymbols = ["№", "<", ">", "/", "|", "\\", "#", "!", "~", "&", "$", "@", ";", ".", "?", "%", "*", "₴", "`"];
 
-    if(titleInput.value == 0) {
+    const title = titleInput.value;
+    const sizeInputValue = sizeInput.value;
+
+    if (title.trim() === "") {
         errorTitle.textContent = "Please enter a title";
-    } else if(invaidSymbols.some(symbol => titleInput.value.includes(symbol))) {
-        errorTitle.textContent = "Wrong symbols";
-    } else if(priceInput.value.includes("&nbsp;") || priceInput.value.includes("&nbsp")) {
-        errorPrice.textContent = "Anti-denys defence";
-    } else if(typeof parseFloat(priceInput.value) != 'number') {
-        errorPrice.textContent = "Please enter a valid numberrr";
-    } else if(invaidSymbols.some(symbol => priceInput.value.includes(symbol)))  {
-        errorPrice.textContent = "Wrong symbols";
-    } else if(priceInput.value.search(/[A-Za-z]/) != -1) {
-        errorPrice.textContent = "Wrong symbols";
-    } else if(priceInput.value <= 0) {
-        errorPrice.textContent = "Please enter a valid number";
     } else {
-        const { title, price } = getInputValues();
-
-        clearInputs();
-
-        addItem({
-            title,
-            price: price.replace(',', '.'),
-        });
-
-        errorPrice.textContent = "";
         errorTitle.textContent = "";
-    }
 
+        const isNumeric = /^\d+$/.test(sizeInputValue);
+
+        if (!isNumeric) {
+            errorsize.textContent = "Please enter a valid number for size";
+        } else if (sizeInputValue <= 0) {
+            errorsize.textContent = "Please enter a valid number for size";
+        } else {
+            errorsize.textContent = "";
+
+            clearInputs();
+
+            addItem({
+                title,
+                size: sizeInputValue.replace(',', '.'),
+            });
+        }
+    }
 });
 
 findButton.addEventListener("click", (event) => {
@@ -92,24 +87,24 @@ findButton.addEventListener("click", (event) => {
     if(findInput.value == 0) {
         errorFind.textContent = "What you want to find?"
     } else {
-        const foundDevices = devices
+        const foundrestaurants = restaurants
         .filter(d => d.title.search(findInput.value) !== -1);
     
-    itemsCounter.innerHTML = `${foundDevices.length}`;
+    itemsCounter.innerHTML = `${foundrestaurants.length}`;
 
     errorFind.textContent = ""; 
 
-    renderItemsList(foundDevices);
+    renderItemsList(foundrestaurants);
     }
 });
 
 cancelFindButton.addEventListener("click", (event) => {
     event.preventDefault();
 
-    renderItemsList(devices);
+    renderItemsList(restaurants);
 
-    itemsCounter.innerHTML = `${devices.length}`;
+    itemsCounter.innerHTML = `${restaurants.length}`;
     findInput.value = "";
 });
 
-renderItemsList(devices);
+renderItemsList(restaurants);
