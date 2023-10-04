@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab-3</title>
+
+    <!--Inter font-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Playfair+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="header container">
+      <h1 class="header__name">Microcontrollers</h1>
+    </header>
+    <section class="content container">
+      <div class="content__form">
+        <form id="validation">
+          <fieldset class="form__create">
+            <legend>Create device</legend>
+            <p>
+              <label for="name">Model</label>
+              <input type="text" id="title_input" />
+              <span class="error" id="errorTitle"></span>
+            </p>
+            <label for="price">Price</label>
+            <input type="text" id="price_input" class="price" />
+            <p class="error" id="errorPrice"></p>
+
+            <button class="form__create-button" id="submit_button">
+              Submit
+            </button>
+          </fieldset>
+
+          <fieldset class="form__find">
+            <legend>Find Device</legend>
+            <p>Items found: <span id="items_counter"> all </span></p>
+            <p>
+              <input type="text" id="find_input" />
+              <span class="error" id="errorFind"></span>
+            </p>
+            <button class="form__find-button" id="find_button">Find</button>
+            <button
+              class="form__find-button-cancel"
+              type="submit"
+              id="cancel_find_button"
+            >
+              Cancel
+            </button>
+            <br />
+            <button class="sort_button" id="sort_items_asc">Lower price</button>
+            <button class="sort_button" id="sort_items_desc">
+              Higher price
+            </button>
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="items_list">
+        <ul id="items_container" class="items_container"></ul>
+      </div>
+
+      <div class="delete-container">
+        <div>
+          <div class="delete-container__title">
+            <img src="./assets/basket.svg" height="50" alt="basket" />
+            <p>Drop here to delete</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>
