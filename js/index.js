@@ -19,22 +19,24 @@ const errorsize = document.getElementById("errorsize");
 const errorFind = document.getElementById("errorFind");
 
 
+
 let restaurants = [];
-
-itemsSortASC.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    restaurants.sort((a, b) => a.size - b.size);
-
-    renderItemsList(restaurants);
-});
+let foundRestaurants = [];
 
 itemsSortDESC.addEventListener("click", (event) => {
     event.preventDefault();
 
-    restaurants.sort((a, b) => b.size - a.size);
+    foundRestaurants.sort((a, b) => b.size - a.size);
 
-    renderItemsList(restaurants);
+    renderItemsList(foundRestaurants);
+});
+
+itemsSortASC.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    foundRestaurants.sort((a, b) => a.size - b.size);
+
+    renderItemsList(foundRestaurants);
 });
 
 const addItem = ({ title, size }) => {
@@ -82,21 +84,40 @@ submitButton.addEventListener("click", (event) => {
     }
 });
 
+
 findButton.addEventListener("click", (event) => {
     event.preventDefault();
-    if(findInput.value == 0) {
-        errorFind.textContent = "What you want to find?"
+
+    if (findInput.value.trim() === "") {
+        errorFind.textContent = "Please enter a search term";
     } else {
-        const foundrestaurants = restaurants
-        .filter(d => d.title.search(findInput.value) !== -1);
-    
-    itemsCounter.innerHTML = `${foundrestaurants.length}`;
+        const searchTerm = findInput.value.toLowerCase();
 
-    errorFind.textContent = ""; 
+        foundRestaurants = restaurants
+            .filter((restaurant) =>
+                restaurant.title.toLowerCase().includes(searchTerm)
+            );
 
-    renderItemsList(foundrestaurants);
+        foundRestaurants.sort((a, b) =>
+            a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
+        );
+
+        itemsCounter.innerHTML = `${foundRestaurants.length}`;
+
+        errorFind.textContent = "";
+
+        renderItemsList(foundRestaurants);
     }
 });
+
+function sortFoundRestaurants(foundRestaurants) {
+    if (currentSortOrder === 'desc') {
+        foundRestaurants.sort((a, b) => b.size - a.size);
+    } else if (currentSortOrder === 'asc') {
+        foundRestaurants.sort((a, b) => a.size - b.size);
+    }
+}
+
 
 cancelFindButton.addEventListener("click", (event) => {
     event.preventDefault();

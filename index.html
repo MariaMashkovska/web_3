@@ -15,21 +15,21 @@
   </head>
   <body>
     <header class="header container">
-      <h1 class="header__name">Microcontrollers</h1>
+      <h1 class="header__name">Restaurants</h1>
     </header>
     <section class="content container">
       <div class="content__form">
         <form id="validation">
           <fieldset class="form__create">
-            <legend>Create device</legend>
+            <legend>Create restaurant</legend>
             <p>
-              <label for="name">Model</label>
+              <label for="name">Name</label>
               <input type="text" id="title_input" />
               <span class="error" id="errorTitle"></span>
             </p>
-            <label for="price">Price</label>
-            <input type="text" id="price_input" class="price" />
-            <p class="error" id="errorPrice"></p>
+            <label for="size">Size</label>
+            <input type="text" id="size_input" class="size" />
+            <p class="error" id="errorsize"></p>
 
             <button class="form__create-button" id="submit_button">
               Submit
@@ -37,8 +37,8 @@
           </fieldset>
 
           <fieldset class="form__find">
-            <legend>Find Device</legend>
-            <p>Items found: <span id="items_counter"> all </span></p>
+            <legend>Find Restaurant</legend>
+            <p>Restaurants found: <span id="items_counter"> all </span></p>
             <p>
               <input type="text" id="find_input" />
               <span class="error" id="errorFind"></span>
@@ -52,9 +52,9 @@
               Cancel
             </button>
             <br />
-            <button class="sort_button" id="sort_items_asc">Lower price</button>
+            <button class="sort_button" id="sort_items_asc">Lower size</button>
             <button class="sort_button" id="sort_items_desc">
-              Higher price
+              Higher size
             </button>
           </fieldset>
         </form>
@@ -62,15 +62,6 @@
 
       <div class="items_list">
         <ul id="items_container" class="items_container"></ul>
-      </div>
-
-      <div class="delete-container">
-        <div>
-          <div class="delete-container__title">
-            <img src="./assets/basket.svg" height="50" alt="basket" />
-            <p>Drop here to delete</p>
-          </div>
-        </div>
       </div>
     </section>
 
