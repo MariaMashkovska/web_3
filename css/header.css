@@ -3,3 +3,20 @@
   justify-content: center;
   align-items: center;
 }
+
+.header__buttons__ul {
+  
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  text-decoration: none;  
+  align-items: space-between;
+
+}
+
+.header_button {
+  background-color: black;
+  flex-direction: row;
+  align-items: space-between;
+
+}

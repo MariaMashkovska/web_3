@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lab-3</title>
 
-    <!--Inter font-->
+    <!-- Inter font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Playfair+Display&display=swap"
       rel="stylesheet"
@@ -28,12 +28,9 @@
               <span class="error" id="errorTitle"></span>
             </p>
             <label for="size">Size</label>
-            <input type="text" id="size_input" class="size" />
+            <input type="number" id="size_input" class="size" />
             <p class="error" id="errorsize"></p>
-
-            <button class="form__create-button" id="submit_button">
-              Submit
-            </button>
+            <button class="form__create-button" id="submit_button">Submit</button>
           </fieldset>
 
           <fieldset class="form__find">
@@ -53,17 +50,34 @@
             </button>
             <br />
             <button class="sort_button" id="sort_items_asc">Lower size</button>
-            <button class="sort_button" id="sort_items_desc">
-              Higher size
-            </button>
+            <button class="sort_button" id="sort_items_desc">Higher size</button>
+            <p id="totalSize">Total Size: 0</p>
+            <button class="calculate_button" id="calc_items">Calculate size</button>
+
           </fieldset>
         </form>
       </div>
 
       <div class="items_list">
-        <ul id="items_container" class="items_container"></ul>
+        <ul id="items_container" class="items_container">
+        </ul>
       </div>
     </section>
+    
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit Restaurant</h2>
+        <form id="editForm">
+          <label for="editTitle">Name</label>
+          <input type="text" id="editTitle" required>
+          <label for="editSize">Size</label>
+          <input type="text" id="editSize" required>
+          <button type="button" id="save-changes">Save Changes</button>
+        </form>
+      </div>
+    </div>
+    
 
     <script type="module" src="./js/index.js"></script>
   </body>

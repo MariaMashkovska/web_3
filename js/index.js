@@ -2,7 +2,6 @@ import {
     addItemToPage,
     clearInputs,
     renderItemsList,
-    getInputValues,
 } from "./dom_util.js";
 
 const submitButton = document.getElementById("submit_button");
@@ -17,8 +16,7 @@ const sizeInput = document.getElementById("size_input");
 const errorTitle = document.getElementById("errorTitle");
 const errorsize = document.getElementById("errorsize");
 const errorFind = document.getElementById("errorFind");
-
-
+const calculateSizeButton = document.getElementById("calc_items");
 
 let restaurants = [];
 let foundRestaurants = [];
@@ -39,8 +37,12 @@ itemsSortASC.addEventListener("click", (event) => {
     renderItemsList(foundRestaurants);
 });
 
+
+
+let cnt = 0;
+
 const addItem = ({ title, size }) => {
-    const generatedId = Math.random().toString(36).substr(2, 9);
+    const generatedId = ++ cnt;
 
     const newItem = {
         id: generatedId,
@@ -49,8 +51,73 @@ const addItem = ({ title, size }) => {
     };
 
     restaurants.push(newItem);
+    foundRestaurants.push(newItem);
 
     addItemToPage(newItem);
+
+    function getItemId(id) {
+        return `item-${id}`;
+    }
+
+    let itemToEditId;
+
+    const editButtons = document.querySelectorAll('.edit__button');
+    editButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const itemID = button.parentElement.getAttribute('id');
+            itemToEditId = itemID;
+            const currentItem = restaurants.find(item => getItemId(item.id) === itemID);
+
+            document.getElementById('editTitle').value = currentItem.title;
+            document.getElementById('editSize').value = currentItem.size;
+
+            document.getElementById('editModal').style.display = 'block';
+            document.querySelector('.modal-content').style.display = 'block';
+        });
+    });
+
+
+    document.querySelector('.close').addEventListener('click', () => {
+        document.getElementById('editModal').style.display = 'none';
+    });
+
+
+    document.getElementById('save-changes').addEventListener('click', () => {
+        console.log("Save Changes button clicked"); 
+        const editedTitle = document.getElementById('editTitle').value;
+        const editedSize = document.getElementById('editSize').value;
+        console.log("Edited Title:", editedTitle); 
+        console.log("Edited Size:", editedSize);
+    
+        const itemID = itemToEditId;
+        console.log("Item ID:", itemID); 
+    
+        const itemIndex = restaurants.findIndex(item => getItemId(item.id) == itemID);
+        console.log("Item Index:", itemIndex); 
+    
+        if (itemIndex !== -1) {
+            restaurants[itemIndex].title = editedTitle;
+            restaurants[itemIndex].size = editedSize;
+    
+            updateItemOnPage(itemID, editedTitle, editedSize);
+            console.log("Item updated"); 
+    
+            document.getElementById('editModal').style.display = 'none';
+        }
+    });
+
+    function updateItemOnPage(itemID, editedTitle, editedSize) {
+        const itemElement = document.getElementById(itemID);
+    
+        if (itemElement) {
+
+            itemElement.querySelector('.card-title').textContent = editedTitle;
+            itemElement.querySelector('.card-paragraph').textContent = editedSize;
+
+        }
+    }
+    
 };
 
 submitButton.addEventListener("click", (event) => {
@@ -110,15 +177,6 @@ findButton.addEventListener("click", (event) => {
     }
 });
 
-function sortFoundRestaurants(foundRestaurants) {
-    if (currentSortOrder === 'desc') {
-        foundRestaurants.sort((a, b) => b.size - a.size);
-    } else if (currentSortOrder === 'asc') {
-        foundRestaurants.sort((a, b) => a.size - b.size);
-    }
-}
-
-
 cancelFindButton.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -126,6 +184,14 @@ cancelFindButton.addEventListener("click", (event) => {
 
     itemsCounter.innerHTML = `${restaurants.length}`;
     findInput.value = "";
+});
+
+calculateSizeButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    let totalSize = restaurants.reduce((total, restaurant) => total + parseFloat(restaurant.size), 0);
+
+    document.getElementById('totalSize').textContent = `Total Size: ${totalSize}`;
 });
 
 renderItemsList(restaurants);

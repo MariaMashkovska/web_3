@@ -1,5 +1,3 @@
-//
-
 const titleInput = document.getElementById("title_input");
 const sizeInput = document.getElementById("size_input");
 const itemsContainer = document.getElementById("items_container");
@@ -22,6 +20,7 @@ const itemTemplate = ({ id, title, size }) => `
                 <p class="card-paragraph">${size}</p>
             </div>
         </div>
+        <button class="edit__button" style="color: black;">Edit</button>
     </li>
 `
 
@@ -33,6 +32,7 @@ export const clearInputs = () => {
 };
 
 export const addItemToPage = ({ id, title, size}) => {
+    console.log("Adding item with id = " + id)
     itemsContainer.insertAdjacentHTML(
         "beforeend",
         itemTemplate({ id, title, size })
@@ -42,7 +42,6 @@ export const addItemToPage = ({ id, title, size}) => {
 
 export const renderItemsList = (items) => {
     itemsContainer.innerHTML = "";
-    
     for (const item of items) {
         addItemToPage(item);
     }

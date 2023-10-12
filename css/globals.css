@@ -14,7 +14,7 @@ fieldset {
 
 label,
 input {
-  display: block;
+  /* display: block; */
   font-size: 24px;
   font-weight: 600;
 }
