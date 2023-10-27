@@ -1,197 +1,138 @@
 import {
     addItemToPage,
-    clearInputs,
-    renderItemsList,
-} from "./dom_util.js";
+    renderItemsList, 
+    DELETE_BUTTON_PREFIX,
+    EDIT_BUTTON_PREFIX
+} from "./templates.js";
 
-const submitButton = document.getElementById("submit_button");
+import {
+    getData, 
+    sendData, 
+    editData, 
+    deleteData
+} from "./api.js"
+
+import {
+    submitinModal,
+    editedModal, 
+    deletedModal
+} from "./modal.js"
+
+var inputs = document.querySelectorAll('input');
+const nameInput = document.getElementById("name_input");
+const submitInputs = document.getElementById("submit_button");
 const findButton = document.getElementById("find_button");
 const cancelFindButton = document.getElementById("cancel_find_button");
 const findInput = document.getElementById("find_input");
-const itemsCounter = document.getElementById("items_counter");
-const itemsSortASC = document.getElementById("sort_items_asc");
-const itemsSortDESC = document.getElementById("sort_items_desc");
-const titleInput = document.getElementById("title_input");
-const sizeInput = document.getElementById("size_input");
-const errorTitle = document.getElementById("errorTitle");
-const errorsize = document.getElementById("errorsize");
-const errorFind = document.getElementById("errorFind");
-const calculateSizeButton = document.getElementById("calc_items");
+const sortButtonASC = document.getElementById("sort_button_asc");
+const sortButtonDESC = document.getElementById("sort_button_desc");
+const countButton = document.getElementById("count_button");
+const priceInput = document.getElementById("price_input");
+const errorMessageInput = document.getElementById("input_message");
+const errorMessageFind = document.getElementById("find_message");
+const deviceCounter = document.getElementById("counter");
 
-let restaurants = [];
-let foundRestaurants = [];
+export let allDevices = [];
 
-itemsSortDESC.addEventListener("click", (event) => {
-    event.preventDefault();
+export const getBody = () => {
+    var myForm = document.getElementById('add_form');
+    var body = new FormData(myForm);
+    return body
+}
 
-    foundRestaurants.sort((a, b) => b.size - a.size);
+export const onRemoveItem =  (event) => {
+    const deviceId = event.target.id.replace(DELETE_BUTTON_PREFIX, "")
+    deleteData(deviceId);
+    deletedModal();
+}
 
-    renderItemsList(foundRestaurants);
-});
+export const onEditItem =  (event) => {
+    const deviceId = event.target.id.replace(EDIT_BUTTON_PREFIX, "");
+    if (validate()) { editData(deviceId), editedModal() };
+    refetchAllItems();
+}
 
-itemsSortASC.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    foundRestaurants.sort((a, b) => a.size - b.size);
-
-    renderItemsList(foundRestaurants);
-});
-
-
-
-let cnt = 0;
-
-const addItem = ({ title, size }) => {
-    const generatedId = ++ cnt;
-
-    const newItem = {
-        id: generatedId,
-        title,
-        size,
-    };
-
-    restaurants.push(newItem);
-    foundRestaurants.push(newItem);
-
-    addItemToPage(newItem);
-
-    function getItemId(id) {
-        return `item-${id}`;
-    }
-
-    let itemToEditId;
-
-    const editButtons = document.querySelectorAll('.edit__button');
-    editButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
-            const itemID = button.parentElement.getAttribute('id');
-            itemToEditId = itemID;
-            const currentItem = restaurants.find(item => getItemId(item.id) === itemID);
-
-            document.getElementById('editTitle').value = currentItem.title;
-            document.getElementById('editSize').value = currentItem.size;
-
-            document.getElementById('editModal').style.display = 'block';
-            document.querySelector('.modal-content').style.display = 'block';
-        });
-    });
-
-
-    document.querySelector('.close').addEventListener('click', () => {
-        document.getElementById('editModal').style.display = 'none';
-    });
-
-
-    document.getElementById('save-changes').addEventListener('click', () => {
-        console.log("Save Changes button clicked"); 
-        const editedTitle = document.getElementById('editTitle').value;
-        const editedSize = document.getElementById('editSize').value;
-        console.log("Edited Title:", editedTitle); 
-        console.log("Edited Size:", editedSize);
-    
-        const itemID = itemToEditId;
-        console.log("Item ID:", itemID); 
-    
-        const itemIndex = restaurants.findIndex(item => getItemId(item.id) == itemID);
-        console.log("Item Index:", itemIndex); 
-    
-        if (itemIndex !== -1) {
-            restaurants[itemIndex].title = editedTitle;
-            restaurants[itemIndex].size = editedSize;
-    
-            updateItemOnPage(itemID, editedTitle, editedSize);
-            console.log("Item updated"); 
-    
-            document.getElementById('editModal').style.display = 'none';
-        }
-    });
-
-    function updateItemOnPage(itemID, editedTitle, editedSize) {
-        const itemElement = document.getElementById(itemID);
-    
-        if (itemElement) {
-
-            itemElement.querySelector('.card-title').textContent = editedTitle;
-            itemElement.querySelector('.card-paragraph').textContent = editedSize;
-
-        }
-    }
-    
+export const refetchAllItems = () => {
+    const items =  getData();
+    renderItemsList(items, onEditItem, onRemoveItem);
 };
 
-submitButton.addEventListener("click", (event) => {
+const findItems = (items) => {
+    const foundItems = items[0].filter(d => d.model.search(findInput.value) !== -1);
+    return foundItems;
+};
 
+const sortItemsASC = (items) => {
+    const sortedItems = items[0].sort((a, b) => (a.price > b.price) ? 1 : -1);
+    return sortedItems;
+}
+
+const sortItemsDESC = (items) => {
+    const sortedItems = items[0].sort((a, b) => (a.price < b.price) ? 1 : -1);
+    return sortedItems;
+}
+
+export const clearInputs = () => {
+    inputs.forEach(input =>  input.value = ''); 
+};
+
+cancelFindButton.addEventListener("click", () => {
+    refetchAllItems(allDevices);
+    clearInputs();
+    errorMessageFind.style.display = "none"
+})
+
+submitInputs.addEventListener('click', (event) => {
     event.preventDefault();
+    if (validate()) { sendData(), submitinModal() };
+    clearInputs();
+});
 
-    const title = titleInput.value;
-    const sizeInputValue = sizeInput.value;
+sortButtonASC.addEventListener('click', (event) => {
+    event.preventDefault(); 
+    renderItemsList(sortItemsASC(allDevices));
+});
 
-    if (title.trim() === "") {
-        errorTitle.textContent = "Please enter a title";
+sortButtonDESC.addEventListener('click', (event) => {
+    event.preventDefault(); 
+    renderItemsList(sortItemsDESC(allDevices));
+});
+
+countButton.addEventListener("click", (event) => {
+    event.preventDefault(); 
+    deviceCounter.textContent = `Total amount of restaurants: ${allDevices[0].length}`;
+})
+
+
+findButton.addEventListener("click", () => {
+    errorMessageFind.style.padding = "10px";
+
+    if (findInput.value == 0) {
+        errorMessageFind.textContent = "What do you want to find?"
     } else {
-        errorTitle.textContent = "";
-
-        const isNumeric = /^\d+$/.test(sizeInputValue);
-
-        if (!isNumeric) {
-            errorsize.textContent = "Please enter a valid number for size";
-        } else if (sizeInputValue <= 0) {
-            errorsize.textContent = "Please enter a valid number for size";
-        } else {
-            errorsize.textContent = "";
-
-            clearInputs();
-
-            addItem({
-                title,
-                size: sizeInputValue.replace(',', '.'),
-            });
-        }
+        renderItemsList(findItems(allDevices));
+        clearInputs();
+        errorMessageFind.style.display = "none"
     }
 });
 
+const validate = () => {
+    errorMessageInput.style.padding = "10px";
 
-findButton.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    if (findInput.value.trim() === "") {
-        errorFind.textContent = "Please enter a search term";
-    } else {
-        const searchTerm = findInput.value.toLowerCase();
-
-        foundRestaurants = restaurants
-            .filter((restaurant) =>
-                restaurant.title.toLowerCase().includes(searchTerm)
-            );
-
-        foundRestaurants.sort((a, b) =>
-            a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
-        );
-
-        itemsCounter.innerHTML = `${foundRestaurants.length}`;
-
-        errorFind.textContent = "";
-
-        renderItemsList(foundRestaurants);
+    if (nameInput.value.length < 3){
+        errorMessageInput.textContent = "Please Enter valid Name";
+    } else if (priceInput.value == 0){
+        errorMessageInput.textContent = "Please Enter valid Price";
+        return false;
+    } else if (priceInput.value < 0) {
+        errorMessageInput.textContent = "Please Enter valid Price";
+        return false;
+    } else { 
+        errorMessageInput.style.display = "none";
+        return true;
     }
-});
+}
 
-cancelFindButton.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    renderItemsList(restaurants);
-
-    itemsCounter.innerHTML = `${restaurants.length}`;
-    findInput.value = "";
-});
-
-calculateSizeButton.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    let totalSize = restaurants.reduce((total, restaurant) => total + parseFloat(restaurant.size), 0);
-
-    document.getElementById('totalSize').textContent = `Total Size: ${totalSize}`;
-});
-
-renderItemsList(restaurants);
+window.onload = () => {
+    renderItemsList(getData());
+}
