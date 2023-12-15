@@ -1,10 +1,12 @@
 import styles from "./ContentItem.module.scss"
+import { AddToCartButton } from "../Catalog/AddToCartButton";
 
 interface ContentItemProps {
     label: string;
     content: string;
-    imageURL: string;
+    imageURL: string;  
 }
+
 
 export const ContentItem = (props: ContentItemProps) => {
     return (

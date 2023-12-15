@@ -17,6 +17,9 @@ export const Hero = () => {
                     Foxy (though he is currently broken and out of order).
                     </span>
                     <br />
+                    <span className={styles.more}>
+                        <Button label="More"/>
+                    </span>
                 </p>
             </div>
         </div>

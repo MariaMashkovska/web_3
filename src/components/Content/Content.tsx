@@ -7,6 +7,8 @@ export const Content = () => {
     const [showMore, setShowMore] = useState(true);
     const [count, setCount] = useState(3);
 
+    const imageURL = "https://i.ytimg.com/vi/txgv0nMZ46I/maxresdefault.jpg"
+
     const MOST_POPULAR_DEVICES = [
         {"label": "Freddy Fazbear's Pizza 1987", "content": "The pizzeria has more rooms than the location in the first game, including four Party Rooms, a Game Area, and a Prize Corner. The main animatronics from the previous location are also stored away in a Parts/Service room, used for spare parts for the new ones.", "image": "https://store-images.s-microsoft.com/image/apps.60385.13578174030071833.ced2a7cf-09b3-4d12-8621-229829d1aa41.66df75dd-fd3d-46de-8a85-5278023c30a2?q=90&w=480&h=270"},
         {"label": "Circus Baby's Pizza World", "content": "Circus Baby's Pizza World was a location created by William Afton after the closing of the first Freddy Fazbear’s Pizza (1983 or 1985). Circus Baby's is reminiscent of ShowBiz Pizza Place and Chuck E. Cheese's, in that Circus Baby's Pizza World provides entertainment via singing animatronic mascots. This place was made a competitor to Freddy Fazbear's Pizza.", "image": "https://i.redd.it/u46cas63p0s71.jpg"},
