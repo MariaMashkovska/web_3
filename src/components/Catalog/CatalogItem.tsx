@@ -1,24 +1,24 @@
-import { Button } from "../Button/Button";
+import { Link } from "react-router-dom";
 import styles from "./CatalogItem.module.scss";
-
+import { ItemInfoButton } from "./ItemInfoButton";
 interface CatalogItemProps {
-    key: number;
+    id: number | string;
     title: string;
-    /* content: string;
-    price: number; */
+    price: number;
 }
 
 export const CatalogItem = (props: CatalogItemProps) => {
     return (
-        <div className={styles.catalogItem}>
-            <img className={styles.itemImage} src="https://images.stopgame.ru/uploads/users/2021/616969/00116.vZmfYZS.png" alt="item"/>
-            <p className={styles.itemTitle}>{props.title}</p>
+        <div className={styles.item}>
+            <img className={styles.image} src="https://all-mods.ru/wp-content/uploads/2018/09/five-nights-at-freddys-serie-aterrorizante-terror.jpg" alt="item"/>
+            <p className={styles.title}>{props.title}</p>
 
-            <p>IT`S ME</p>
+            <p>Price:</p>
 
-            <p>666</p>
-            <p><Button label="More"/></p>
+            <p className={styles.price}>{props.price}</p>
+            <p className={styles.view_more}>
+                <ItemInfoButton itemId={props.id}/>
+            </p>
         </div>
     )
 }
-

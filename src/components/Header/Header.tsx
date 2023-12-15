@@ -1,9 +1,8 @@
 import styles from "./Header.module.scss";
 import { Logo } from "../Logo/Logo";
 import { HeaderItem } from "./HeaderItem";
-import { useLocation } from "react-router";
 
-export const Header = () => {
+export const Header = () => {    
     return (
         <header className={styles.header}>
             <Logo />

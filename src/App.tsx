@@ -8,11 +8,14 @@ import {
 import { Header } from './components/Header/Header';
 import { Hero } from "./components/Hero/Hero";
 import { Content } from "./components/Content/Content";
-import { Catalog } from "./components/Catalog/Catalog";
+import Catalog from "./components/Catalog/Catalog";
+import ItemPage from "./components/ItemPage/ItemPage"
+import { Footer } from "./components/Footer/Footer";
+
+
 
 // styles
 import styles from './App.scss';
-import { Footer } from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -29,9 +32,15 @@ function App() {
           <Route exact path="/catalog">
             <Catalog />
           </Route>
+
+          <Route exact path='/catalog/info/:id'>
+            <ItemPage />
+          </Route>
+
           <Route exact path="/cart">
 
           </Route>
+
         </Switch>
 
         <Footer />
