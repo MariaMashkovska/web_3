@@ -22,7 +22,7 @@ export const Footer = () => {
             </div>
             <div className={styles.rights}>
                 <p>
-                    Mariia © All rights reserved (no)
+                    2021 IoT LPNU © All rights reserved (no)
                 </p>
             </div>
         </footer>
