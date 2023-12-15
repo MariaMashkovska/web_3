@@ -5,18 +5,32 @@
 
 ***
 ### Лабораторна робота №3 (Варіант Restaurants)
-Посилання на вітку [[(https://github.com/MariaMashkovska/web_3/tree/third_lab)](https://google.com)]]
+Посилання на вітку (https://github.com/MariaMashkovska/web_3/tree/third_lab)
 
 ***
 ### Лабораторна робота №4 (Варіант Restaurants)
-Посилання на вітку [[https://github.com/MariaMashkovska/web_3/tree/fourth_lab](https://google.com)]]
+Посилання на вітку https://github.com/MariaMashkovska/web_3/tree/fourth_lab
 
 ***
 ### Лабораторна робота №5 (Варіант Restaurants)
-Посилання на вітку [[https://github.com/MariaMashkovska/web_3/tree/fourth_lab](https://google.com)]]
+Посилання на вітку (https://github.com/MariaMashkovska/web_3/tree/fifth_lab)
 
 ***
 ### Лабораторна робота №6 (Варіант Restaurants)
-Посилання на вітку [[https://github.com/MariaMashkovska/web_3/tree/fourth_lab](https://google.com)]
+Посилання на вітку (https://github.com/MariaMashkovska/web_3/tree/sixth_lab)
 
 ***
+### Лабораторна робота №7 (Варіант Restaurants)
+Посилання на вітку https://github.com/MariaMashkovska/web_3/tree/seventh_lab
+
+***
+### Лабораторна робота №8 (Варіант Restaurants)
+Посилання на вітку (https://github.com/MariaMashkovska/web_3/tree/eighth_lab)
+
+***
+### Лабораторна робота №9 (Варіант Restaurants)
+Посилання на вітку https://github.com/MariaMashkovska/web_3/tree/nineth_lab
+
+***
+### Лабораторна робота №10 (Варіант Restaurants)
+Посилання на вітку https://github.com/MariaMashkovska/web_3/tree/tenth_lab
